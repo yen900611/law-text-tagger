@@ -1,0 +1,26 @@
+  /* Add some basic styling to the text container */
+  #text-container {
+    margin-top: 40px;
+    font-family: sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    height: 500px;
+  }
+  
+  /* Hide the previous button by default */
+#prev-button {
+    display: 'inline-block';
+    width: 70px;
+    height: 30px;
+  }
+  
+#next-button {
+    display: 'inline-block';
+    width: 70px;
+    height: 30px;
+  }
+
+#file-input {
+    margin-bottom: 20px;
+  }

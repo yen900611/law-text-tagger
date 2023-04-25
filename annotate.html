@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My Website</title>
+	<title>law-text-tagger</title>
     <div id="title">
 
     </div>
-	<link rel="stylesheet" href="annotate.css">
+	<link rel="stylesheet" href="css/annotate.css">
+    <link rel="stylesheet" href="css/tag.css">
+    <link rel="stylesheet" href="css/text.css">
+
 </head>
 <body>
     <div id="area">
         <div id="tag-area">
             <div id="tag-container"></div>
+            <form id="tag-file-input">
+                <input type="file" name="tag-file" id="tag-file-input" accept=".json">
+            </form>
             <form id="tag-form">
                 <input type="text" name="tag-text" id="tag-text" placeholder="Tag text">
                 <input type="color" name="tag-color" id="tag-color" value="#ff0000">
@@ -36,7 +42,9 @@
         
 
     </div>
-    <script src="annotate.js"></script>
+    <script src="js/annotate.js"></script>
+    <script src="js/text.js"></script>
+    <script src="js/tag.js"></script>
           
 </body>
 </html>
