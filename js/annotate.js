@@ -7,29 +7,45 @@ let selectionEndOffset = null;
 const textContainer = document.getElementById('text-container');
 const tagContainer = document.getElementById('tag-container');
 
-// Listen for the mousedown event on the text container
-textContainer.addEventListener('mousedown', (event) => {
-  // Set the starting offset of the selection
-  selectionStartOffset = window.getSelection().anchorOffset;
-
-  // Listen for the mousemove event on the text container
-  textContainer.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mouseup', () => {
+  const selection = window.getSelection();
+  console.log(selection);
+  if (!selection.isCollapsed) {
+    const range = selection.getRangeAt(0);
+    const newNode = document.createElement('span');
+    if(selectedTag){
+      newNode.style.backgroundColor = selectedTag.color;
+      if(selectedTag.luminance<=0.5){
+        newNode.style.color = "#ffffff";
+      }
+    }
+    range.surroundContents(newNode);
+  }
 });
 
-// Define a function to handle the mousemove event
-function handleMouseMove(event) {
-  // Set the ending offset of the selection
-  selectionEndOffset = window.getSelection().focusOffset;
-}
 
-// Listen for the mouseup event on the text container
-textContainer.addEventListener('mouseup', (event) => {
-  // Stop listening for the mousemove event
-  textContainer.removeEventListener('mousemove', handleMouseMove);
+ class TaggedText{
+  constructor(tag, text, firstIndex, lastIndex) {
+    this.tag = tag;
+    this.text = text;
+    this.firstIndex = firstIndex;
+    this.lastIndex = lastIndex;
+    this.doubt = false;
+    this.next = null;
+  }
+ }
 
-  // Get the selected text
-  const selectedText = window.getSelection().toString().trim();
+ class TaggedTextList{
+  constructor(tag, text, firstIndex, lastIndex) {
+    this.head = new TaggedText(tag, text, firstIndex, lastIndex);
+  }
 
-  // Do something with the selected text
-  console.log(selectedText);
-});
+  append(tag, text, firstIndex, lastIndex) {
+    let current = this.head;
+    while (current.next !== null) {
+      current = current.next;
+    }
+    current.next = new TaggedText(tag, text, firstIndex, lastIndex);
+  }
+ }
+console.log(selectedTag);

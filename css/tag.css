@@ -8,14 +8,14 @@
     line-height: 1.5;
   }
   /* Add some basic styling to the tag form and container */
-  #tag-form {
+#tag-form {
     display: flex;
     margin-top: 0px;
   }
   
-  #tag-form input[type="text"] {
+#tag-form input[type="text"] {
     width: 80px;
-    margin: auto;
+    margin-left: 30px;
   }
 
   /* Add some basic styling for the selected tag */
@@ -30,4 +30,9 @@
 
   .tag-dark {
     color: white;
+}
+
+#tag-file-input {
+  margin-top: 15px;
+  margin-left: 30px;
 }

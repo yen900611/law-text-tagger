@@ -26,7 +26,6 @@ tagContainer.addEventListener('click', (event) => {
         // Find the selected tag
         const selectedTagName = event.target.parentElement.querySelector('span').textContent;
         selectedTag = tags.find(tag => tag.text === selectedTagName);
-        console.log(selectedTag.color);
     
         // Update the tag container to reflect the new selection
         updateTagContainer();
@@ -47,11 +46,12 @@ function updateTagContainer() {
       const darkClass = tag.luminance <= 0.5 ? 'tag-dark' : '';
       const selectedClass = tag === selectedTag ? 'selected-tag' : '';
       return `<label>
-      <input type="radio" name="selected-tag" ${tag.selected ? "checked" : ""}>
+      <input type="radio" name="selected-tag" class="selected-tag" ${selectedClass? "checked" : ""}>
       <span class="${darkClass}" style="background-color: ${tag.color}; padding: 5px; margin-right: 5px;">${tag.text}</span>
       </label>
       `
     }).join('');
+    console.log(selectedTag)
   }
 // upload tag file(.json)
 const tagFileInput = document.getElementById('tag-file-input');
