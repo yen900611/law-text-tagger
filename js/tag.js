@@ -51,7 +51,6 @@ function updateTagContainer() {
       </label>
       `
     }).join('');
-    console.log(selectedTag)
   }
 // upload tag file(.json)
 const tagFileInput = document.getElementById('tag-file-input');
