@@ -8,10 +8,10 @@
     line-height: 1.5;
   }
   /* Add some basic styling to the tag form and container */
-#tag-form {
+/* #tag-form {
     display: flex;
     margin-top: 0px;
-  }
+  } */
   
 #tag-form input[type="text"] {
     width: 80px;

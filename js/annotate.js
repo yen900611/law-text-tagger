@@ -34,9 +34,12 @@ const tagContainer = document.getElementById('tag-container');
   }
  }
 
+
 const TagTextList = new TaggedTextList()
 const deleteButtonTemplate = document.createElement('button');
 deleteButtonTemplate.id = "delete-button"
+const doubtButtonTemplate = document.createElement('button');
+doubtButtonTemplate.id = "doubt-button"
 
 function deleteTaggedText(node, html){
   // node
@@ -63,7 +66,18 @@ function deleteTaggedText(node, html){
   console.log(TagTextList);
 
   // html
-  html.replaceWith(html.innerText.slice(0, -1));
+  html.replaceWith(html.innerText.slice(0, -2));
+}
+
+function doubtTaggedText(node, html){
+  if(node.doubt){
+    node.doubt = false;
+    html.innerText = "V";
+  }
+  else{
+    node.doubt = true;
+    html.innerText = "?"
+  }
 }
 
 document.addEventListener('mouseup', () => {
@@ -80,22 +94,28 @@ document.addEventListener('mouseup', () => {
       }
     let a;
     if(TagTextList.head){
-      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset+1, selection.focusOffset);
+      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
       TagTextList.append(a);
     }
     else{
-      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset+1, selection.focusOffset);
+      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
       TagTextList.head = a;
     }
     console.log(TagTextList);
     
     range.surroundContents(newNode);
     const thisDeleteButton = deleteButtonTemplate.cloneNode();
+    const thisDoubtButton = doubtButtonTemplate.cloneNode();
     thisDeleteButton.addEventListener('click', () => {
       deleteTaggedText(a, newNode);
     });
     thisDeleteButton.innerText = 'X';
+    thisDoubtButton.addEventListener('click', () => {
+      doubtTaggedText(a, thisDoubtButton);
+    });
+    thisDoubtButton.innerText = 'V';
     newNode.appendChild(thisDeleteButton);
+    newNode.appendChild(thisDoubtButton);
     window.getSelection().empty();
   }
 });
