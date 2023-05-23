@@ -19,6 +19,13 @@
     display: 'inline-block';
     width: 70px;
     height: 30px;
+    margin-right: 95px;
+  }
+
+#export-button {
+    display: 'inline-block';
+    width: 70px;
+    height: 30px;
   }
 
 #file-input {

@@ -6,6 +6,7 @@ let selectionEndOffset = null;
 
 const textContainer = document.getElementById('text-container');
 const tagContainer = document.getElementById('tag-container');
+const exportButton = document.getElementById('export-button');
 
  class TaggedText{
   constructor(tag, text, firstIndex, lastIndex) {
@@ -45,8 +46,8 @@ function deleteTaggedText(node, html){
   // node
   if(node.last){
     if(node.next){
-      node.last.next = a.next;
-      node.next.last = a.last;
+      node.last.next = node.next;
+      node.next.last = node.last;
     }
     else{
       node.last = null;
@@ -72,11 +73,11 @@ function deleteTaggedText(node, html){
 function doubtTaggedText(node, html){
   if(node.doubt){
     node.doubt = false;
-    html.innerText = "V";
+    html.innerText = "\u{2705}";
   }
   else{
     node.doubt = true;
-    html.innerText = "?"
+    html.innerText = "\u{26A0}"
   }
 }
 
@@ -86,36 +87,74 @@ document.addEventListener('mouseup', () => {
     const range = selection.getRangeAt(0);
     const newNode = document.createElement('span');
     
-    console.log(newNode);
-    
       newNode.style.backgroundColor = selectedTag.color;
       if(selectedTag.luminance<=0.5){
         newNode.style.color = "#ffffff";
       }
-    let a;
+    let nodeData;
     if(TagTextList.head){
-      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
-      TagTextList.append(a);
+      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
+      TagTextList.append(nodeData);
     }
     else{
-      a = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
-      TagTextList.head = a;
+      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
+      TagTextList.head = nodeData;
     }
-    console.log(TagTextList);
     
     range.surroundContents(newNode);
     const thisDeleteButton = deleteButtonTemplate.cloneNode();
     const thisDoubtButton = doubtButtonTemplate.cloneNode();
-    thisDeleteButton.addEventListener('click', () => {
-      deleteTaggedText(a, newNode);
-    });
-    thisDeleteButton.innerText = 'X';
-    thisDoubtButton.addEventListener('click', () => {
-      doubtTaggedText(a, thisDoubtButton);
-    });
-    thisDoubtButton.innerText = 'V';
     newNode.appendChild(thisDeleteButton);
     newNode.appendChild(thisDoubtButton);
+    thisDeleteButton.addEventListener('click', () => {
+      deleteTaggedText(nodeData, newNode);
+    });
+    thisDeleteButton.innerText = '\u{274C}';
+    thisDoubtButton.addEventListener('click', () => {
+      doubtTaggedText(nodeData, thisDoubtButton);
+    });
+    thisDoubtButton.innerText = '\u{2705}';
     window.getSelection().empty();
   }
 });
+
+exportButton.addEventListener('click', () => {
+  // console.log(TagTextList);
+  export_label();
+});
+
+function export_label(){
+  // text
+  let text = '';
+  let id = 1;
+  let node = TagTextList.head;
+  text += 'T0 ' + fileContents;
+  while(node){
+    console.log(node);
+    text += `T${id} ${node.tag} ${node.firstIndex} ${node.lastIndex} ${node.text}\n`;
+    node = node.next;
+    id += 1;
+  }
+  downloadFile(text, 'text.txt', 'text/plain');
+
+  // tags
+  let tagJson = [];
+  for(let i=0; i<tags.length; i++){
+    tagJson.push({"id":i+1,"name":tags[i]["text"], "color":tags[i]["color"]});
+  }
+  const jsonString = JSON.stringify(tagJson);
+  downloadFile(jsonString, 'tag.json', 'application/json')
+}
+
+function downloadFile(data, filename, mimeType) {
+  const blob = new Blob([data], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+}

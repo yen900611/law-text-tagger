@@ -1,5 +1,6 @@
 // Get a reference to the file input element
 const fileInput = document.getElementById('file-input');
+let fileContents;
 
 // Get references to the text container and navigation buttons
 const prevButton = document.getElementById('prev-button');
@@ -18,7 +19,7 @@ const file = fileInput.files[0];
     // Read the contents of the file
     const reader = new FileReader();
     reader.onload = () => {
-      const fileContents = reader.result;
+      fileContents = reader.result;
   
       // Split the file contents into sections by newline
       sections = fileContents.split('\n');
