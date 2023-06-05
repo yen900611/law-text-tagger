@@ -93,11 +93,11 @@ document.addEventListener('mouseup', () => {
       }
     let nodeData;
     if(TagTextList.head){
-      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
+      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset+sectionLength[currentSectionIndex], selection.focusOffset+sectionLength[currentSectionIndex]);
       TagTextList.append(nodeData);
     }
     else{
-      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset, selection.focusOffset);
+      nodeData = new TaggedText(selectedTag.text, selection.toString().trim(), selection.anchorOffset+sectionLength[currentSectionIndex], selection.focusOffset+sectionLength[currentSectionIndex]);
       TagTextList.head = nodeData;
     }
     
@@ -135,7 +135,7 @@ function export_label(){
     node = node.next;
     id += 1;
   }
-  downloadFile(text, 'text.txt', 'text/plain');
+  downloadFile(text, 'text.tag.txt', 'text/plain');
 
   // tags
   let tagJson = [];

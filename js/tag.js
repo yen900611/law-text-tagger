@@ -8,17 +8,17 @@ let tags = [];
 tagForm.addEventListener('submit', (event) => {
   event.preventDefault(); // prevent the default form submission
 
-  // Get the tag text and color from the form inputs
-  const tagText = document.getElementById('tag-text').value;
-  const tagColor = document.getElementById('tag-color').value;
-  const tagLuminance = colorLuminance(tagColor)
-
-    // Add the tag to the tags array
-    tags.push({ text: tagText, color: tagColor, luminance: tagLuminance });
+  newTag(document.getElementById('tag-text').value, document.getElementById('tag-color').value)
 
   // Update the tag container with the new tag
   updateTagContainer();
 });
+
+function newTag(text, color){
+  // Add the tag to the tags array
+  tags.push({ text: text, color: color, luminance: colorLuminance(color) });
+
+}
 
 // Listen for tag selection
 tagContainer.addEventListener('click', (event) => {
@@ -74,3 +74,11 @@ tagFileInput.addEventListener('change', (event) => {
   reader.readAsText(selectedFile);
 }
 );
+
+function rgbToHex(r, g, b) {
+  const hexR = r.toString(16).padStart(2, '0'); // 將紅色值轉換為 2 位的 HEX 格式
+  const hexG = g.toString(16).padStart(2, '0'); // 將綠色值轉換為 2 位的 HEX 格式
+  const hexB = b.toString(16).padStart(2, '0'); // 將藍色值轉換為 2 位的 HEX 格式
+
+  return `#${hexR}${hexG}${hexB}`; // 組合為 HEX 格式的顏色碼並返回
+}
