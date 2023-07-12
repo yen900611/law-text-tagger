@@ -1,0 +1,1 @@
+conda activate LeArNER ; cd ~/Desktop/LeArNER/bert_ner-master ; /home/user/miniconda3/envs/LeArNER/bin/python /home/user/Desktop/LeArNER/bert_ner-master/main.py
